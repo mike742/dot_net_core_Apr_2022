@@ -68,24 +68,75 @@ namespace dot_net_core_Apr_2022
             BigInteger sum = BigInteger.Add( bi1, bi2);
             // Console.WriteLine(sum);
 
-            BigInteger bi3 = BigInteger.Parse("18200000000000000000");
+            BigInteger bi3 = BigInteger.Parse("925200000000000000000");
             string str3 = bi3.ToString("N0");
             string[] arr = str3.Split(',');
 
-            foreach (var el in arr)
+            // 925,200,000,000,000,000,000
+            for (int i = 0; i < arr.Length; i++)
             {
-                PartToWords(el);
+                string number = PartToWords(arr[i]);
+                number = number == "" ? "" : " " + LargeNumberToWord(arr.Length - i);
+
+                Console.WriteLine(number);
             }
 
         }
+        static string LargeNumberToWord(int value)
+        {
+            string[] largeMap = new[] {
+            "", "thousand", "million", "billion",
+            "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion",
+            "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion",
+            "Quattuordecillion", "Quindecillion", "Sexdecillion", "Septdecillion",
+            "Octodecillion", "Novemdecillion", "Vigintillion"
+            };
 
-        static void PartToWords(string number)
-        { 
+            return largeMap[value];
+        }
+
+        static string PartToWords(string part)
+        {
+            var unitsMap = new[] {
+                "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+                "seventeen", "eighteen", "nineteen"
+            };
+            var tensMap = new[] {
+                "", "ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninty"
+            };
             /*
              123,000
              */
-            number = number.PadLeft(3, '0');
-            Console.WriteLine(number);
+            int index;
+            string res = string.Empty;
+            part = part.PadLeft(3, '0');
+            Console.WriteLine(part);
+
+            if (part[0] != '0')
+            {
+                index = Convert.ToInt32(part[0].ToString());
+                res += unitsMap[index] + " hundred";
+            }
+
+            if (part[1] == '1')
+            {
+                index = Convert.ToInt32(part[1].ToString() + part[2].ToString());
+                res += " " + unitsMap[index];
+            }
+            else if (part[1] != '0')
+            {
+                index = Convert.ToInt32(part[1].ToString());
+                res += " " + tensMap[index];
+            }
+
+            if (part[2] != '0')
+            {
+                index = Convert.ToInt32(part[2].ToString());
+                res += " " + unitsMap[index]; 
+            }
+
+            return res;
         }
 
         static void IsEmailValid(string value)
