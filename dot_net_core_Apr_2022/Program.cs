@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Console;
 
 namespace dot_net_core_Apr_2022
 {
@@ -55,31 +57,56 @@ namespace dot_net_core_Apr_2022
 
             //Console.ReadLine();
 
-            string str = "hello method extension"; // "Hello
-            // var res = StringHelper.FlipFirsLetterCase(str);
-            
-            var res = str.FlipFirsLetterCase();
+            //string str = "hello method extension"; // "Hello
+            //// var res = StringHelper.FlipFirsLetterCase(str);
 
-            Console.WriteLine(res);
+            //var res = str.FlipFirsLetterCase();
 
-            BigInteger bi1 = new BigInteger(double.MaxValue);
-            BigInteger bi2 = new BigInteger(double.MaxValue);
+            //Console.WriteLine(res);
 
-            BigInteger sum = BigInteger.Add( bi1, bi2);
-            // Console.WriteLine(sum);
+            //BigInteger bi1 = new BigInteger(double.MaxValue);
+            //BigInteger bi2 = new BigInteger(double.MaxValue);
 
-            BigInteger bi3 = BigInteger.Parse("925200000000000000000");
-            string str3 = bi3.ToString("N0");
-            string[] arr = str3.Split(',');
+            //BigInteger sum = BigInteger.Add( bi1, bi2);
+            //// Console.WriteLine(sum);
 
-            // 925,200,000,000,000,000,000
-            for (int i = 0; i < arr.Length; i++)
+            //BigInteger bi3 = BigInteger.Parse("925200000000000000000");
+            //string str3 = bi3.ToString("N0");
+            //string[] arr = str3.Split(',');
+
+            //// 925,200,000,000,000,000,000
+            //for (int i = 0; i < arr.Length; i++)
+            //{
+            //    string number = PartToWords(arr[i]);
+            //    number = number == "" ? "" : " " + LargeNumberToWord(arr.Length - i);
+
+            //    Console.WriteLine(number);
+            //}
+
+
+            string path = @"d:\tmp\file1.txt";
+
+            WriteLine( $"file exists = {File.Exists(path)}" );
+
+            WriteLine($" filename = { Path.GetFileName(path) } ");
+
+            string path2 = Path.Combine(@"d:\", "content", "webpage", "www", "folder 1", "index.html");
+            WriteLine(path2);
+
+            for (int i = 0; i < 5; ++i)
             {
-                string number = PartToWords(arr[i]);
-                number = number == "" ? "" : " " + LargeNumberToWord(arr.Length - i);
-
-                Console.WriteLine(number);
+                var res = Path.GetRandomFileName();
+                WriteLine(res);
             }
+
+            path = "sample.txt";
+
+            if (File.Exists(path))
+            {
+                string fileContent = File.ReadAllText(path);
+                WriteLine(fileContent);
+            }
+
 
         }
         static string LargeNumberToWord(int value)
