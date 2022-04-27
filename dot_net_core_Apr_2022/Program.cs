@@ -7,6 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static System.Console;
+// using Newtonsoft.Json;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace dot_net_core_Apr_2022
 {
@@ -100,13 +104,25 @@ namespace dot_net_core_Apr_2022
             }
 
             path = "sample.txt";
-
+            string fileContent = String.Empty;
             if (File.Exists(path))
             {
-                string fileContent = File.ReadAllText(path);
+                fileContent = File.ReadAllText(path);
                 WriteLine(fileContent);
             }
 
+            //var jss = new JsonSerializer();
+            //jss.Deserialize<Top>()
+            Top result = System.Text.Json.JsonSerializer.Deserialize<Top>(fileContent);
+
+            result.Print();
+
+            var xs = new XmlSerializer(typeof(Top));
+            string xmlFile = "data.xml";
+            using (FileStream fs = File.Create(xmlFile))
+            {
+                xs.Serialize(fs, result);
+            }
 
         }
         static string LargeNumberToWord(int value)
