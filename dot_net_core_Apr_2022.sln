@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dot_net_core_Apr_2022", "dot_net_core_Apr_2022\dot_net_core_Apr_2022.csproj", "{290C78B2-9C89-4D03-AEA6-40A4D8466C2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtectData", "ProtectData\ProtectData.csproj", "{535B8EF9-1DD0-4C69-A624-7175A43A5642}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{290C78B2-9C89-4D03-AEA6-40A4D8466C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{290C78B2-9C89-4D03-AEA6-40A4D8466C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{290C78B2-9C89-4D03-AEA6-40A4D8466C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{535B8EF9-1DD0-4C69-A624-7175A43A5642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{535B8EF9-1DD0-4C69-A624-7175A43A5642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{535B8EF9-1DD0-4C69-A624-7175A43A5642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{535B8EF9-1DD0-4C69-A624-7175A43A5642}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

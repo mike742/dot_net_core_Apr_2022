@@ -8,9 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static System.Console;
 // using Newtonsoft.Json;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Xml.Serialization;
+using ProtectData;
 
 namespace dot_net_core_Apr_2022
 {
@@ -88,41 +86,59 @@ namespace dot_net_core_Apr_2022
             //}
 
 
-            string path = @"d:\tmp\file1.txt";
+            //string path = @"d:\tmp\file1.txt";
 
-            WriteLine( $"file exists = {File.Exists(path)}" );
+            //WriteLine( $"file exists = {File.Exists(path)}" );
 
-            WriteLine($" filename = { Path.GetFileName(path) } ");
+            //WriteLine($" filename = { Path.GetFileName(path) } ");
 
-            string path2 = Path.Combine(@"d:\", "content", "webpage", "www", "folder 1", "index.html");
-            WriteLine(path2);
+            //string path2 = Path.Combine(@"d:\", "content", "webpage", "www", "folder 1", "index.html");
+            //WriteLine(path2);
 
-            for (int i = 0; i < 5; ++i)
-            {
-                var res = Path.GetRandomFileName();
-                WriteLine(res);
-            }
+            //for (int i = 0; i < 5; ++i)
+            //{
+            //    var res = Path.GetRandomFileName();
+            //    WriteLine(res);
+            //}
 
-            path = "sample.txt";
-            string fileContent = String.Empty;
-            if (File.Exists(path))
-            {
-                fileContent = File.ReadAllText(path);
-                WriteLine(fileContent);
-            }
+            //path = "sample.txt";
+            //string fileContent = String.Empty;
+            //if (File.Exists(path))
+            //{
+            //    fileContent = File.ReadAllText(path);
+            //    WriteLine(fileContent);
+            //}
 
-            //var jss = new JsonSerializer();
-            //jss.Deserialize<Top>()
-            Top result = System.Text.Json.JsonSerializer.Deserialize<Top>(fileContent);
+            ////var jss = new JsonSerializer();
+            ////jss.Deserialize<Top>()
+            //Top result = System.Text.Json.JsonSerializer.Deserialize<Top>(fileContent);
 
-            result.Print();
+            //result.Print();
 
-            var xs = new XmlSerializer(typeof(Top));
-            string xmlFile = "data.xml";
-            using (FileStream fs = File.Create(xmlFile))
-            {
-                xs.Serialize(fs, result);
-            }
+            //var xs = new XmlSerializer(typeof(Top));
+            //string xmlFile = "data.xml";
+            //using (FileStream fs = File.Create(xmlFile))
+            //{
+            //    xs.Serialize(fs, result);
+            //}
+
+            string pwd = "admin1234";
+
+            string hidden = ProtectData.ProtectData.toMD5(pwd);
+
+            WriteLine(hidden == ProtectData.ProtectData.toMD5("admin1234"));
+
+            // WriteLine( ProtectData.ProtectData.GenerateSecretKey() );
+            string sk = "3@hhp0P9:QNFedJ]?]gk8`UO0g@c]PE:";
+
+            string increpted = ProtectData.ProtectData.EncryptString(sk, "1234-5678-9012-3456");
+
+            WriteLine(increpted);
+
+            WriteLine(ProtectData.ProtectData.DecryptString(sk, increpted));
+
+            string pwd2 = "Pa$$w0rd";
+            WriteLine( ProtectData.ProtectData.SaltAndHash(pwd2) );
 
         }
         static string LargeNumberToWord(int value)
