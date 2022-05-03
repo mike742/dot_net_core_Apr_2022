@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using static System.Console;
 // using Newtonsoft.Json;
 using ProtectData;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace dot_net_core_Apr_2022
 {
@@ -122,24 +123,51 @@ namespace dot_net_core_Apr_2022
             //    xs.Serialize(fs, result);
             //}
 
-            string pwd = "admin1234";
+            //string pwd = "admin1234";
 
-            string hidden = ProtectData.ProtectData.toMD5(pwd);
+            //string hidden = ProtectData.ProtectData.toMD5(pwd);
 
-            WriteLine(hidden == ProtectData.ProtectData.toMD5("admin1234"));
+            //WriteLine(hidden == ProtectData.ProtectData.toMD5("admin1234"));
 
-            // WriteLine( ProtectData.ProtectData.GenerateSecretKey() );
-            string sk = "3@hhp0P9:QNFedJ]?]gk8`UO0g@c]PE:";
+            //// WriteLine( ProtectData.ProtectData.GenerateSecretKey() );
+            //string sk = "3@hhp0P9:QNFedJ]?]gk8`UO0g@c]PE:";
 
-            string increpted = ProtectData.ProtectData.EncryptString(sk, "1234-5678-9012-3456");
+            //string increpted = ProtectData.ProtectData.EncryptString(sk, "1234-5678-9012-3456");
 
-            WriteLine(increpted);
+            //WriteLine(increpted);
 
-            WriteLine(ProtectData.ProtectData.DecryptString(sk, increpted));
+            //WriteLine(ProtectData.ProtectData.DecryptString(sk, increpted));
 
-            string pwd2 = "Pa$$w0rd";
-            WriteLine( ProtectData.ProtectData.SaltAndHash(pwd2) );
+            //string pwd2 = "Pa$$w0rd";
+            //WriteLine( ProtectData.ProtectData.SaltAndHash(pwd2) );
 
+
+            List<Employee> employees = new List<Employee>
+            { 
+                new Employee {Id = 1, FirstName = "Mark", LastName = "Smith", Salary = 2500},
+                new Employee {Id = 2, FirstName = "Lucy", LastName = "Johnson", Salary = 2600},
+                new Employee {Id = 3, FirstName = "Tracy", LastName = "Swanson", Salary = 2450},
+                new Employee {Id = 4, FirstName = "Mike", LastName = "Doe", Salary = 2900},
+            };
+
+            string file = "Employee.dat";
+            //using (Stream st = File.Open(file, FileMode.Create))
+            //{
+            //    BinaryFormatter bf = new BinaryFormatter();
+            //    bf.Serialize(st, employees);
+            //}
+
+            using (Stream st = File.Open(file, FileMode.Open))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+
+                var employees2 = (List<Employee>)bf.Deserialize(st);
+
+                foreach (var emp in employees2)
+                {
+                    WriteLine(emp);
+                }
+            }
         }
         static string LargeNumberToWord(int value)
         {
