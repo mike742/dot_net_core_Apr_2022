@@ -10,6 +10,8 @@ using static System.Console;
 // using Newtonsoft.Json;
 using ProtectData;
 using System.Runtime.Serialization.Formatters.Binary;
+using dot_net_core_Apr_2022.Models;
+using System.Xml.Serialization;
 
 namespace dot_net_core_Apr_2022
 {
@@ -150,23 +152,46 @@ namespace dot_net_core_Apr_2022
                 new Employee {Id = 4, FirstName = "Mike", LastName = "Doe", Salary = 2900},
             };
 
-            string file = "Employee.dat";
+            // string file = "Employee.dat";
             //using (Stream st = File.Open(file, FileMode.Create))
             //{
             //    BinaryFormatter bf = new BinaryFormatter();
             //    bf.Serialize(st, employees);
             //}
 
-            using (Stream st = File.Open(file, FileMode.Open))
+            //using (Stream st = File.Open(file, FileMode.Open))
+            //{
+            //    BinaryFormatter bf = new BinaryFormatter();
+
+            //    var employees2 = (List<Employee>)bf.Deserialize(st);
+
+            //    foreach (var emp in employees2)
+            //    {
+            //        WriteLine(emp);
+            //    }
+            //}
+
+            var context = new AppDbContext();
+
+            List<Customers> customers = context.Customers.ToList();
+
+            foreach (var cus in customers)
+            {
+                WriteLine($"{cus.Id}: {cus.Company} {cus.LastName} {cus.FirstName}");
+            }
+
+            string file = "Customers.dat";
+            using (Stream st = File.Open(file, FileMode.Create))
             {
                 BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(st, customers);
+            }
 
-                var employees2 = (List<Employee>)bf.Deserialize(st);
-
-                foreach (var emp in employees2)
-                {
-                    WriteLine(emp);
-                }
+            var xs = new XmlSerializer(typeof(List<Customers>));
+            file = "Customers.xml";
+            using (FileStream fs = File.Create(file))
+            {
+                xs.Serialize(fs, customers);
             }
         }
         static string LargeNumberToWord(int value)
