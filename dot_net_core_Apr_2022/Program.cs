@@ -171,29 +171,115 @@ namespace dot_net_core_Apr_2022
             //    }
             //}
 
+            //customers customers = new customers
+            //{
+            //    Customers = new List<Customer> {
+            //        new Customer
+            //        {
+            //            Name = "Mark",
+            //            Creditcard = "1234-4567-7891",
+            //            Password = "admin1234"
+            //        }
+            //    }
+            //};
+
+            // ToXml(customers, "XYZ.xml");
+
+            //var file = "XYZ.xml";
+            //var res = FromXml<customers>(file);
+
+            //foreach (var c in res.Customers)
+            //{
+            //    WriteLine(c.Name + " " + c.Password);
+            //}
+
+            List<SerializeFile> files = new List<SerializeFile> {
+                new SerializeFile { FileName = "data.xml", FileSize = 123456},
+                new SerializeFile { FileName = "data.json", FileSize = 1324},
+                new SerializeFile {FileName = "data.dat", FileSize = 12}
+            };
+
+            //var res = files.OrderByDescending(f => f.FileSize);
+
+            //foreach (var r in res)
+            //{
+            //    WriteLine($"{r.FileName} : {r.FileSize}");
+            //}
+
+
+            //List<int> arr = new List<int> { 7, 3, 6, 8, 1, 9 };
+
+            //arr.Sort();
+            //arr.Reverse();
+
+            //WriteLine( String.Join(" ", arr)  );
+
+            files.Sort();
+            files.Reverse();
+            foreach (var file in files)
+            {
+                WriteLine($"{file.FileName} : {file.FileSize}");
+            }
+
             var context = new AppDbContext();
 
-            List<Customers> customers = context.Customers.ToList();
+            var customers = context.Customers.ToList();
 
-            foreach (var cus in customers)
+            string city = "Boston";
+
+            var result = customers.Where(cus => cus.City == city);
+
+            result.Count();
+            foreach (var cus in result)
             {
-                WriteLine($"{cus.Id}: {cus.Company} {cus.LastName} {cus.FirstName}");
+                WriteLine($"{cus.LastName} {cus.FirstName} : {cus.City}");
             }
 
-            string file = "Customers.dat";
-            using (Stream st = File.Open(file, FileMode.Create))
+
+            List<string> cities = new List<string>();
+
+            foreach (var customer in customers)
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(st, customers);
+                cities.Add(customer.City);
             }
 
-            var xs = new XmlSerializer(typeof(List<Customers>));
-            file = "Customers.xml";
-            using (FileStream fs = File.Create(file))
+            WriteLine(String.Join(" ", cities.Distinct()));
+
+            var cities2 = customers.Select(cus => cus.City).ToList().Distinct();
+
+            WriteLine(String.Join(" ", cities2));
+
+
+            var result3 = customers.Select(cus => new { Id = cus.Id, FullName = cus.FirstName + " " + cus.LastName });
+
+            foreach (var item in result3)
             {
-                xs.Serialize(fs, customers);
+                WriteLine($"{item.Id} : {item.FullName}");
+            }
+
+        }
+
+
+        public static void ToXml<T>(T obj, string xml)
+        {
+            using (StringWriter sw = new StringWriter(new StringBuilder()))
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                xs.Serialize(sw, obj);
+                File.WriteAllText(xml, sw.ToString());
             }
         }
+
+        public static T FromXml<T>(string xml)
+        {
+            using (StringReader st = new StringReader(xml))
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                // byte[] bytes = GetResponseByteArray(xml);
+                return (T)xs.Deserialize(st);
+            }
+        }
+
         static string LargeNumberToWord(int value)
         {
             string[] largeMap = new[] {
